@@ -74,6 +74,9 @@ public class PlaneController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        CloudFlash flash = other.GetComponent<CloudFlash>();
+        if (flash != null) flash.BigStrike();
+
         CloudGate gate = other.GetComponentInParent<CloudGate>();
 
         if (gate != null)

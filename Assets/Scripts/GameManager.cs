@@ -98,6 +98,8 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.Playing;
         if (startScreen != null) startScreen.SetActive(false);
+
+        if (SoundManager.instance != null) SoundManager.instance.StartFlight();
     }
 
     void Restart()
@@ -112,6 +114,8 @@ public class GameManager : MonoBehaviour
 
         gate.wasHit = true;
         lift -= hitDamage;
+
+        if (SoundManager.instance != null) SoundManager.instance.PlayCloudHit();
 
         if (hitEffect != null)
         {
@@ -134,6 +138,12 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.GameOver;
         gameOverTime = 0;
+
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.StopFlight();
+            SoundManager.instance.PlayCrash();
+        }
 
         int meters = Mathf.RoundToInt(distance);
         int best = PlayerPrefs.GetInt("bestDistance", 0);

@@ -255,6 +255,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8af44790990354a11b23001afe53574a, type: 3}
   planeRenderer: {fileID: 294077472}
   planeCollider: {fileID: 327784593}
+  crashDuration: 1.5
+  crashForward: 4
+  crashSideways: 1.5
+  crashShake: 0.4
+  crashWobble: 10
 --- !u!61 &327784593
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1077,10 +1082,10 @@ MonoBehaviour:
   storm2Volume: 0.22
   storm2Speed: 1
   whooshShort: {fileID: 8300000, guid: 92a98151fdc5d4f42a1a5a24c26a62fa, type: 3}
-  whooshShortVolume: 0.05
+  whooshShortVolume: 0.5
   whooshShortSpeed: 1.7
   whooshLong: {fileID: 8300000, guid: 98619995cd3bf40c0884e54ba92e91c1, type: 3}
-  whooshLongVolume: 0.15
+  whooshLongVolume: 1
   whooshLongSpeed: 2.3
   cloudHit: {fileID: 8300000, guid: 8f1e0a4dae1de4ad094a7558e74d4b4f, type: 3}
   cloudHitVolume: 0.2

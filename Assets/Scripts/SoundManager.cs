@@ -36,15 +36,15 @@ public class SoundManager : MonoBehaviour
     [Range(0, 1)] public float whooshLongVolume = 1f;
     [Range(0.5f, 3f)] public float whooshLongSpeed = 1.5f;
 
-    [Header("7  Fall kurz (Wolke berührt)")]
-    public AudioClip fallShort;
-    [Range(0, 1)] public float fallShortVolume = 1f;
-    [Range(0.5f, 3f)] public float fallShortSpeed = 1f;
+    [Header("7  Wolke Blitz (Wolke berührt)")]
+    public AudioClip cloudHit;
+    [Range(0, 1)] public float cloudHitVolume = 1f;
+    [Range(0.01f, 3f)] public float cloudHitSpeed = 0.05f;   // unter 1 = langsamer und tiefer
 
-    [Header("9  Flugzeugsturz lang (Game Over)")]
-    public AudioClip crash;
-    [Range(0, 1)] public float crashVolume = 1f;
-    [Range(0.5f, 3f)] public float crashSpeed = 1f;
+    [Header("9  Absturz: Blitz + Helicopter (Game Over)")]
+    public AudioClip crashBlend;        // Blitz-Treffer, geht nahtlos in den Helicopter-Absturz über
+    [Range(0, 1)] public float crashBlendVolume = 1f;
+    [Range(0.5f, 3f)] public float crashBlendSpeed = 1f;
 
     [Header("Alle Effekte (5, 6, 7, 9) zusammen")]
     [Range(0, 1)] public float effectVolume = 1f;
@@ -54,7 +54,7 @@ public class SoundManager : MonoBehaviour
     AudioSource storm2Source;
     AudioSource whooshShortSource;
     AudioSource whooshLongSource;
-    AudioSource fallShortSource;
+    AudioSource cloudHitSource;
     AudioSource crashSource;
 
     void Awake()
@@ -67,7 +67,7 @@ public class SoundManager : MonoBehaviour
         storm2Source = CreateSource(storm2, true);
         whooshShortSource = CreateSource(null, false);
         whooshLongSource = CreateSource(null, false);
-        fallShortSource = CreateSource(null, false);
+        cloudHitSource = CreateSource(null, false);
         crashSource = CreateSource(null, false);
 
         UpdateLoops();
@@ -130,12 +130,12 @@ public class SoundManager : MonoBehaviour
 
     public void PlayCloudHit()
     {
-        Play(fallShortSource, fallShort, fallShortVolume, fallShortSpeed);
+        Play(cloudHitSource, cloudHit, cloudHitVolume, cloudHitSpeed);
     }
 
     public void PlayCrash()
     {
-        Play(crashSource, crash, crashVolume, crashSpeed);
+        Play(crashSource, crashBlend, crashBlendVolume, crashBlendSpeed);
     }
 
     void Play(AudioSource source, AudioClip clip, float volume, float speed)
@@ -156,8 +156,8 @@ public class SoundManager : MonoBehaviour
         if (storm2 == null) storm2 = FindClip("Gewitter 2");
         if (whooshShort == null) whooshShort = FindClip("whoosh1");
         if (whooshLong == null) whooshLong = FindClip("Whoosch");
-        if (fallShort == null) fallShort = FindClip("Fall kurz ");
-        if (crash == null) crash = FindClip("Flugzeugsturz lang Retro");
+        if (cloudHit == null) cloudHit = FindClip("wolke_blitz");
+        if (crashBlend == null) crashBlend = FindClip("Absturz Blitz Helicopter");
     }
 
     AudioClip FindClip(string fileName)

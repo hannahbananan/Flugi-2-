@@ -1071,23 +1071,23 @@ MonoBehaviour:
   engineVolume: 0.5
   engineSpeed: 1
   wind: {fileID: 8300000, guid: b0062a6fc636b40a4b344a85d01de304, type: 3}
-  windVolume: 0.15
+  windVolume: 0.08
   windSpeed: 1
   storm2: {fileID: 8300000, guid: f63ebe51bd6264bbf8085398f47d12c8, type: 3}
-  storm2Volume: 0.8
+  storm2Volume: 0.22
   storm2Speed: 1
   whooshShort: {fileID: 8300000, guid: 92a98151fdc5d4f42a1a5a24c26a62fa, type: 3}
-  whooshShortVolume: 0.15
+  whooshShortVolume: 0.05
   whooshShortSpeed: 1.7
   whooshLong: {fileID: 8300000, guid: 98619995cd3bf40c0884e54ba92e91c1, type: 3}
-  whooshLongVolume: 0.3
+  whooshLongVolume: 0.15
   whooshLongSpeed: 2.3
-  fallShort: {fileID: 8300000, guid: b5590b97c214847478f30ed2013e8036, type: 3}
-  fallShortVolume: 1
-  fallShortSpeed: 1
-  crash: {fileID: 8300000, guid: 7fefea89898394d98903645a03ce9c27, type: 3}
-  crashVolume: 1
-  crashSpeed: 1
+  cloudHit: {fileID: 8300000, guid: 8f1e0a4dae1de4ad094a7558e74d4b4f, type: 3}
+  cloudHitVolume: 0.2
+  cloudHitSpeed: 0.57
+  crashBlend: {fileID: 8300000, guid: d808ec2b52891427ea38c5fdd65a1510, type: 3}
+  crashBlendVolume: 1
+  crashBlendSpeed: 1
   effectVolume: 1
 --- !u!4 &1899385158
 Transform:
@@ -1142,9 +1142,7 @@ MonoBehaviour:
   - -7
   - -10
   hitDamage: 30
-  passPoints: 10
-  perfectPoints: 50
-  comboBonus: 25
+  metersPerUnit: 10
   speed: 3
   speedIncrease: 0.12
   maxSpeed: 10

@@ -1068,16 +1068,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   engine: {fileID: 8300000, guid: ec1819223a6ee478ab59a2405fe946d4, type: 3}
-  wind: {fileID: 8300000, guid: b0062a6fc636b40a4b344a85d01de304, type: 3}
-  whooshShort: {fileID: 8300000, guid: 92a98151fdc5d4f42a1a5a24c26a62fa, type: 3}
-  whooshLong: {fileID: 8300000, guid: 98619995cd3bf40c0884e54ba92e91c1, type: 3}
-  fallShort: {fileID: 8300000, guid: b5590b97c214847478f30ed2013e8036, type: 3}
-  crash: {fileID: 8300000, guid: 7fefea89898394d98903645a03ce9c27, type: 3}
   engineVolume: 0.5
-  windVolume: 0.4
-  effectVolume: 1
+  engineSpeed: 1
+  wind: {fileID: 8300000, guid: b0062a6fc636b40a4b344a85d01de304, type: 3}
+  windVolume: 0.15
+  windSpeed: 1
+  storm2: {fileID: 8300000, guid: f63ebe51bd6264bbf8085398f47d12c8, type: 3}
+  storm2Volume: 0.8
+  storm2Speed: 1
+  whooshShort: {fileID: 8300000, guid: 92a98151fdc5d4f42a1a5a24c26a62fa, type: 3}
+  whooshShortVolume: 0.15
   whooshShortSpeed: 1.7
+  whooshLong: {fileID: 8300000, guid: 98619995cd3bf40c0884e54ba92e91c1, type: 3}
+  whooshLongVolume: 0.3
   whooshLongSpeed: 2.3
+  fallShort: {fileID: 8300000, guid: b5590b97c214847478f30ed2013e8036, type: 3}
+  fallShortVolume: 1
+  fallShortSpeed: 1
+  crash: {fileID: 8300000, guid: 7fefea89898394d98903645a03ce9c27, type: 3}
+  crashVolume: 1
+  crashSpeed: 1
+  effectVolume: 1
 --- !u!4 &1899385158
 Transform:
   m_ObjectHideFlags: 0

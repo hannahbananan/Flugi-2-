@@ -3,60 +3,104 @@ using UnityEngine;
 // Spielt alle Sounds vom Spiel ab (Soundliste Version 2).
 // Einfach auf ein leeres GameObject in der Szene ziehen.
 // Im Editor werden die Sounds automatisch aus "Assets/Sounds Flugi2 1" eingetragen.
+//
+// Jeder Sound hat einen Lautstärke- und einen Tempo-Regler.
+// Tempo: 1 = normal, 2 = doppelt so schnell (klingt dann auch höher), 0.5 = halb so schnell (tiefer).
+// Alle Regler kann man während dem Spielen im Inspector ausprobieren.
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
-    [Header("Atmosphäre (Loop)")]
-    public AudioClip engine;            // 1  Flugzeug-Geräusch: Motor während des Flugs
-    public AudioClip wind;              // 2  Wind: Hintergrund
-
-    [Header("Steuerung")]
-    public AudioClip whooshShort;       // 5  Whoosh kurz: Flugzeug dreht eine Stufe
-    public AudioClip whooshLong;        // 6  Whoosh lang: starke Drehung (auf 90°)
-
-    [Header("Ereignisse")]
-    public AudioClip fallShort;         // 7  Fall kurz: Wolke berührt
-    public AudioClip crash;             // 9  Flugzeugsturz lang: Game Over
-
-    [Header("Lautstärke")]
+    [Header("1  Flugzeug-Geräusch (Loop, während dem Flug)")]
+    public AudioClip engine;
     [Range(0, 1)] public float engineVolume = 0.5f;
-    [Range(0, 1)] public float windVolume = 0.4f;
-    [Range(0, 1)] public float effectVolume = 1f;
+    [Range(0.5f, 3f)] public float engineSpeed = 1f;
 
-    [Header("Tempo")]
-    [Range(0.5f, 3f)] public float whooshShortSpeed = 1f;    // 1 = normal, 2 = doppelt so schnell (klingt auch höher)
-    [Range(0.5f, 3f)] public float whooshLongSpeed = 1.5f;   // 1 = normal, 2 = doppelt so schnell (klingt auch höher)
+    [Header("2  Wind (Loop, immer)")]
+    public AudioClip wind;
+    [Range(0, 1)] public float windVolume = 0.4f;
+    [Range(0.5f, 3f)] public float windSpeed = 1f;
+
+    [Header("4  Gewitter 2 (Loop, immer)")]
+    public AudioClip storm2;
+    [Range(0, 1)] public float storm2Volume = 0.4f;
+    [Range(0.5f, 3f)] public float storm2Speed = 1f;
+
+    [Header("5  Whoosh kurz (eine Stufe kippen)")]
+    public AudioClip whooshShort;
+    [Range(0, 1)] public float whooshShortVolume = 1f;
+    [Range(0.5f, 3f)] public float whooshShortSpeed = 1f;
+
+    [Header("6  Whoosh lang (auf 90° kippen)")]
+    public AudioClip whooshLong;
+    [Range(0, 1)] public float whooshLongVolume = 1f;
+    [Range(0.5f, 3f)] public float whooshLongSpeed = 1.5f;
+
+    [Header("7  Fall kurz (Wolke berührt)")]
+    public AudioClip fallShort;
+    [Range(0, 1)] public float fallShortVolume = 1f;
+    [Range(0.5f, 3f)] public float fallShortSpeed = 1f;
+
+    [Header("9  Flugzeugsturz lang (Game Over)")]
+    public AudioClip crash;
+    [Range(0, 1)] public float crashVolume = 1f;
+    [Range(0.5f, 3f)] public float crashSpeed = 1f;
+
+    [Header("Alle Effekte (5, 6, 7, 9) zusammen")]
+    [Range(0, 1)] public float effectVolume = 1f;
 
     AudioSource engineSource;
     AudioSource windSource;
-    AudioSource effectSource;
+    AudioSource storm2Source;
     AudioSource whooshShortSource;
     AudioSource whooshLongSource;
+    AudioSource fallShortSource;
+    AudioSource crashSource;
 
     void Awake()
     {
         instance = this;
 
-        engineSource = CreateSource(engine, true, engineVolume);
-        windSource = CreateSource(wind, true, windVolume);
-        effectSource = CreateSource(null, false, effectVolume);
-        whooshShortSource = CreateSource(null, false, effectVolume);
-        whooshLongSource = CreateSource(null, false, effectVolume);
+        // Jeder Sound bekommt eine eigene AudioSource, damit jedes Tempo einzeln geht
+        engineSource = CreateSource(engine, true);
+        windSource = CreateSource(wind, true);
+        storm2Source = CreateSource(storm2, true);
+        whooshShortSource = CreateSource(null, false);
+        whooshLongSource = CreateSource(null, false);
+        fallShortSource = CreateSource(null, false);
+        crashSource = CreateSource(null, false);
+
+        UpdateLoops();
     }
 
     void Start()
     {
-        // Wind läuft immer, auch auf dem Startbildschirm
+        // Wind und Gewitter laufen immer, auch auf dem Startbildschirm
         if (wind != null) windSource.Play();
+        if (storm2 != null) storm2Source.Play();
     }
 
-    AudioSource CreateSource(AudioClip clip, bool loop, float volume)
+    void Update()
+    {
+        // Damit die Regler für die Loops sofort wirken, auch während dem Spielen
+        UpdateLoops();
+    }
+
+    void UpdateLoops()
+    {
+        engineSource.volume = engineVolume;
+        engineSource.pitch = engineSpeed;
+        windSource.volume = windVolume;
+        windSource.pitch = windSpeed;
+        storm2Source.volume = storm2Volume;
+        storm2Source.pitch = storm2Speed;
+    }
+
+    AudioSource CreateSource(AudioClip clip, bool loop)
     {
         AudioSource source = gameObject.AddComponent<AudioSource>();
         source.clip = clip;
         source.loop = loop;
-        source.volume = volume;
         source.playOnAwake = false;
         return source;
     }
@@ -78,45 +122,29 @@ public class SoundManager : MonoBehaviour
     public void PlayTilt(int newStep)
     {
         // Ganz auf die Seite (90°) = starke Drehung, sonst eine Stufe
-        if (Mathf.Abs(newStep) == 3) PlayWhooshLong();
-        else PlayWhooshShort();
-    }
-
-    void PlayWhooshShort()
-    {
-        if (whooshShort == null) return;
-
-        // Eigene AudioSource, damit nur dieser Sound schneller läuft
-        whooshShortSource.pitch = whooshShortSpeed;
-        whooshShortSource.PlayOneShot(whooshShort, effectVolume);
-    }
-
-    void PlayWhooshLong()
-    {
-        if (whooshLong == null) return;
-
-        // Eigene AudioSource, damit nur dieser Sound schneller läuft.
-        // Tempo wird bei jedem Abspielen neu gelesen, also live im Inspector testbar.
-        whooshLongSource.pitch = whooshLongSpeed;
-        whooshLongSource.PlayOneShot(whooshLong, effectVolume);
+        if (Mathf.Abs(newStep) == 3) Play(whooshLongSource, whooshLong, whooshLongVolume, whooshLongSpeed);
+        else Play(whooshShortSource, whooshShort, whooshShortVolume, whooshShortSpeed);
     }
 
     // ---------- Ereignisse ----------
 
     public void PlayCloudHit()
     {
-        Play(fallShort);
+        Play(fallShortSource, fallShort, fallShortVolume, fallShortSpeed);
     }
 
     public void PlayCrash()
     {
-        Play(crash);
+        Play(crashSource, crash, crashVolume, crashSpeed);
     }
 
-    void Play(AudioClip clip)
+    void Play(AudioSource source, AudioClip clip, float volume, float speed)
     {
         if (clip == null) return;
-        effectSource.PlayOneShot(clip, effectVolume);
+
+        // Regler werden bei jedem Abspielen neu gelesen
+        source.pitch = speed;
+        source.PlayOneShot(clip, volume * effectVolume);
     }
 
 #if UNITY_EDITOR
@@ -125,6 +153,7 @@ public class SoundManager : MonoBehaviour
     {
         if (engine == null) engine = FindClip("Flugzeug Geräusch");
         if (wind == null) wind = FindClip("Wind Background oder einzelne SoundEffects");
+        if (storm2 == null) storm2 = FindClip("Gewitter 2");
         if (whooshShort == null) whooshShort = FindClip("whoosh1");
         if (whooshLong == null) whooshLong = FindClip("Whoosch");
         if (fallShort == null) fallShort = FindClip("Fall kurz ");

@@ -15,10 +15,8 @@ public class GameManager : MonoBehaviour
     public float[] liftPerSecond = { 9, -5, -13, -24 };   // bei 0°, 30°, 60°, 90°
     public float hitDamage = 30;
 
-    [Header("Punkte")]
-    public int passPoints = 10;
-    public int perfectPoints = 50;
-    public int comboBonus = 25;
+    [Header("Distanz")]
+    public float metersPerUnit = 10;    // wie viele Meter eine Unity-Einheit Flug sind
 
     [Header("Tempo")]
     public float speed = 3;
@@ -28,16 +26,14 @@ public class GameManager : MonoBehaviour
     [Header("Verweise")]
     public PlaneController plane;
     public RectTransform liftBar;       // Pivot X = 0, dann wird der Balken von links her kürzer
-    public TMP_Text scoreText;
+    public TMP_Text scoreText;          // zeigt Distanz und Höhe
     public TMP_Text infoText;
     public TMP_Text gameOverText;
     public GameObject startScreen;
     public GameObject gameOverScreen;
     public GameObject hitEffect;
 
-    int score = 0;
-    int combo = 0;
-    int gatesPassed = 0;
+    float distance = 0;
     float gameOverTime = 0;
 
     void Awake()
@@ -57,6 +53,9 @@ public class GameManager : MonoBehaviour
     {
         if (state == GameState.Playing)
         {
+            // Distanz zählt mit dem Tempo hoch
+            distance += speed * metersPerUnit * Time.deltaTime;
+
             // Gerade fliegen = Höhe zurück, schräg fliegen = sinken
             int index = Mathf.Abs(plane.step);
             lift = lift + liftPerSecond[index] * Time.deltaTime;
@@ -99,8 +98,6 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.Playing;
         if (startScreen != null) startScreen.SetActive(false);
-
-        if (SoundManager.instance != null) SoundManager.instance.StartFlight();
     }
 
     void Restart()
@@ -115,9 +112,6 @@ public class GameManager : MonoBehaviour
 
         gate.wasHit = true;
         lift -= hitDamage;
-        combo = 0;
-
-        if (SoundManager.instance != null) SoundManager.instance.PlayCloudHit();
 
         if (hitEffect != null)
         {
@@ -125,36 +119,15 @@ public class GameManager : MonoBehaviour
         }
 
         ShowInfo("getroffen  -" + hitDamage);
-        Debug.Log("Wolke getroffen! Höhe: " + lift);
     }
 
+    // Wird von jedem Tor aufgerufen, wenn es vorbei ist: Spiel wird schneller
     public void GatePassed(CloudGate gate)
     {
         if (state != GameState.Playing) return;
 
-        gatesPassed++;
-
-        if (gate.wasHit == false)
-        {
-            // Perfekt = genau so schräg wie nötig, nicht mehr
-            if (gate.requiredStep > 0 && gate.maxStepUsed == gate.requiredStep)
-            {
-                combo++;
-                int points = perfectPoints + comboBonus * (combo - 1);
-                score += points;
-                ShowInfo("perfekt  +" + points);
-            }
-            else
-            {
-                score += passPoints;
-                if (gate.maxStepUsed > gate.requiredStep) combo = 0;
-            }
-        }
-
         speed = speed + speedIncrease;
         if (speed > maxSpeed) speed = maxSpeed;
-
-        Debug.Log("Tor geschafft: " + gatesPassed + "  Punkte: " + score);
     }
 
     void GameOver()
@@ -162,26 +135,19 @@ public class GameManager : MonoBehaviour
         state = GameState.GameOver;
         gameOverTime = 0;
 
-        if (SoundManager.instance != null)
+        int meters = Mathf.RoundToInt(distance);
+        int best = PlayerPrefs.GetInt("bestDistance", 0);
+        if (meters > best)
         {
-            SoundManager.instance.StopFlight();
-            SoundManager.instance.PlayCrash();
-        }
-
-        int best = PlayerPrefs.GetInt("best", 0);
-        if (score > best)
-        {
-            best = score;
-            PlayerPrefs.SetInt("best", best);
+            best = meters;
+            PlayerPrefs.SetInt("bestDistance", best);
         }
 
         if (gameOverScreen != null) gameOverScreen.SetActive(true);
         if (gameOverText != null)
         {
-            gameOverText.text = "abgestürzt\n\n" + score + " punkte\nbestwert " + best;
+            gameOverText.text = "abgestürzt\n\n" + meters + " m geflogen\nrekord " + best + " m";
         }
-
-        Debug.Log("Game Over! Punkte: " + score);
     }
 
     void UpdateUI()
@@ -190,28 +156,26 @@ public class GameManager : MonoBehaviour
 
         if (scoreText != null)
         {
-            string text = score + " punkte\nhöhe " + Mathf.RoundToInt(lift);
-            if (combo > 1) text = "combo x" + combo + "\n" + text;
-            scoreText.text = text;
+            scoreText.text = Mathf.RoundToInt(distance) + " m\nhöhe " + Mathf.RoundToInt(lift);
         }
     }
 
     void ShowInfo(string message)
-{
-    if (infoText == null) return;
-
-    // Mit InfoPopup: aufploppen und ausblenden
-    InfoPopup popup = infoText.GetComponent<InfoPopup>();
-    if (popup != null)
     {
-        popup.Show(message);
-        return;
-    }
+        if (infoText == null) return;
 
-    infoText.text = message;
-    CancelInvoke("ClearInfo");
-    Invoke("ClearInfo", 1f);
-}
+        // Mit InfoPopup: aufploppen und ausblenden
+        InfoPopup popup = infoText.GetComponent<InfoPopup>();
+        if (popup != null)
+        {
+            popup.Show(message);
+            return;
+        }
+
+        infoText.text = message;
+        CancelInvoke("ClearInfo");
+        Invoke("ClearInfo", 1f);
+    }
 
     void ClearInfo()
     {

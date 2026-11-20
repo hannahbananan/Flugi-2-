@@ -87,11 +87,19 @@ public class PlaneController : MonoBehaviour
 
             if (canTilt)
             {
+                int oldStep = step;
+
                 if (rightPressed) step++;
                 else step--;
 
                 step = Mathf.Clamp(step, -maxStep, maxStep);
                 UpdatePlane();
+
+                // Whoosh nur, wenn sich der Winkel wirklich geändert hat
+                if (step != oldStep && SoundManager.instance != null)
+                {
+                    SoundManager.instance.PlayTilt(step);
+                }
             }
         }
     }

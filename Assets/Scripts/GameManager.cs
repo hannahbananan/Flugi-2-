@@ -87,7 +87,8 @@ public class GameManager : MonoBehaviour
 
         if (state == GameState.GameOver)
         {
-            if (gameOverTime > 1) Restart();
+            // Neustart erst, wenn der Absturz vorbei ist und der Screen kurz zu sehen war
+            if (gameOverTime > plane.crashDuration + 0.5f) Restart();
             return false;
         }
 
@@ -153,11 +154,19 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("bestDistance", best);
         }
 
-        if (gameOverScreen != null) gameOverScreen.SetActive(true);
         if (gameOverText != null)
         {
             gameOverText.text = "abgestürzt\n\n" + meters + " m geflogen\nrekord " + best + " m";
         }
+
+        // Zuerst stürzt das Flugzeug ab, danach kommt der Game-Over-Screen
+        plane.Crash();
+        Invoke("ShowGameOverScreen", plane.crashDuration);
+    }
+
+    void ShowGameOverScreen()
+    {
+        if (gameOverScreen != null) gameOverScreen.SetActive(true);
     }
 
     void UpdateUI()

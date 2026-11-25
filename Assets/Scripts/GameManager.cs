@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
     float crateTimer = 0;
     int hitCount = 0;
 
+    static bool skipStartScreen = false;
+
     void Awake()
     {
         instance = this;
@@ -61,6 +63,12 @@ public class GameManager : MonoBehaviour
         }
 
         UpdateUI();
+
+        if (skipStartScreen)
+        {
+            skipStartScreen = false;
+            StartGame();
+        }
     }
 
     void Update()
@@ -153,6 +161,7 @@ public class GameManager : MonoBehaviour
 
     void Restart()
     {
+        skipStartScreen = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

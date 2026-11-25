@@ -23,6 +23,12 @@ public class GameManager : MonoBehaviour
     public float speedIncrease = 0.12f;
     public float maxSpeed = 10;
 
+    [Header("Kisten (bei tiefer Höhe)")]
+    public GameObject cratePrefab;
+    public float crateHeight = 30;      // unter dieser Höhe fallen Kisten
+    public float crateMinWait = 4;      // Sekunden bis zur nächsten Kiste (zufällig dazwischen)
+    public float crateMaxWait = 6;
+
     [Header("Verweise")]
     public PlaneController plane;
     public RectTransform liftBar;       // Pivot X = 0, dann wird der Balken von links her kürzer
@@ -35,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     float distance = 0;
     float gameOverTime = 0;
+    float crateTimer = 0;
 
     void Awake()
     {
@@ -60,6 +67,18 @@ public class GameManager : MonoBehaviour
             int index = Mathf.Abs(plane.step);
             lift = lift + liftPerSecond[index] * Time.deltaTime;
             if (lift > maxLift) lift = maxLift;
+
+            // Bei tiefer Höhe ab und zu eine Kiste abwerfen
+            if (lift < crateHeight && cratePrefab != null)
+            {
+                crateTimer -= Time.deltaTime;
+                if (crateTimer <= 0)
+                {
+                    GameObject crate = Instantiate(cratePrefab, plane.transform.position, Quaternion.identity);
+                    Destroy(crate, 3);
+                    crateTimer = Random.Range(crateMinWait, crateMaxWait);
+                }
+            }
 
             if (lift <= 0)
             {

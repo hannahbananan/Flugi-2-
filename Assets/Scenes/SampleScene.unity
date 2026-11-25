@@ -1389,6 +1389,10 @@ MonoBehaviour:
   speed: 3
   speedIncrease: 0.12
   maxSpeed: 10
+  cratePrefab: {fileID: 5740949010003716111, guid: 78d9a87173509458baabbf9630fee6cf, type: 3}
+  crateHeight: 30
+  crateMinWait: 4
+  crateMaxWait: 6
   plane: {fileID: 327784592}
   liftBar: {fileID: 0}
   scoreText: {fileID: 841004926}

@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject hitEffect;
     public float slowSmokeSpeed = 0.4f;
+    public float gameOverDelay = 1f;
 
     float distance = 0;
     float gameOverTime = 0;
@@ -125,6 +126,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ClickButton()
+    {
+        ButtonPressed();
+    }
+
     public bool ButtonPressed()
     {
         if (state == GameState.Start)
@@ -135,7 +141,7 @@ public class GameManager : MonoBehaviour
 
         if (state == GameState.GameOver)
         {
-            if (gameOverTime > plane.crashDuration + 0.5f)
+            if (gameOverTime > plane.crashDuration + gameOverDelay + 0.5f)
             {
                 Restart();
             }
@@ -236,22 +242,13 @@ public class GameManager : MonoBehaviour
             SoundManager.instance.PlayCrash();
         }
 
-        int meters = Mathf.RoundToInt(distance);
-        int best = PlayerPrefs.GetInt("bestDistance", 0);
-
-        if (meters > best)
-        {
-            best = meters;
-            PlayerPrefs.SetInt("bestDistance", best);
-        }
-
         if (gameOverText != null)
         {
-            gameOverText.text = "abgestürzt\n\n" + meters + " m geflogen\nrekord " + best + " m";
+            gameOverText.text = Mathf.RoundToInt(distance) + " m";
         }
 
         plane.Crash();
-        Invoke("ShowGameOverScreen", plane.crashDuration);
+        Invoke("ShowGameOverScreen", plane.crashDuration + gameOverDelay);
     }
 
     void ShowGameOverScreen()

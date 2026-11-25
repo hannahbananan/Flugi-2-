@@ -268,7 +268,7 @@ public class GameManager : MonoBehaviour
 
         if (scoreText != null)
         {
-            scoreText.text = Mathf.RoundToInt(distance) + " m\nhöhe " + Mathf.RoundToInt(lift);
+            scoreText.text = Mathf.RoundToInt(distance) + " m";
         }
     }
 

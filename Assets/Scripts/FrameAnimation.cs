@@ -1,9 +1,8 @@
 using UnityEngine;
 
-// Spielt ein paar Bilder nacheinander ab (z.B. Propeller, Blitz, Rauch)
 public class FrameAnimation : MonoBehaviour
 {
-    public Sprite[] frames;             // max. 3 Bilder
+    public Sprite[] frames;
     public float framesPerSecond = 10;
     public bool loop = true;
     public bool destroyWhenDone = false;
@@ -18,7 +17,10 @@ public class FrameAnimation : MonoBehaviour
 
     void Update()
     {
-        if (frames.Length == 0) return;
+        if (frames.Length == 0)
+        {
+            return;
+        }
 
         timer += Time.deltaTime;
         int frame = (int)(timer * framesPerSecond);

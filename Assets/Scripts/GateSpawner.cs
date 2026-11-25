@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class GateSpawner : MonoBehaviour
 {
-    public CloudGate[] gates;               // alle Tor-Prefabs hier reinziehen
+    public CloudGate[] gates;
     public float distanceBetweenGates = 8;
     public float minDistance = 5;
-    public int gatesUntilHarder = 4;        // alle 4 Tore kommt eine schwierigere Stufe dazu
+    public int gatesUntilHarder = 4;
 
     float distanceTravelled;
     int gatesSpawned = 0;
@@ -13,18 +13,24 @@ public class GateSpawner : MonoBehaviour
 
     void Start()
     {
-        distanceTravelled = distanceBetweenGates;   // erstes Tor sofort
+        distanceTravelled = distanceBetweenGates;
     }
 
     void Update()
     {
-        if (GameManager.instance.state != GameManager.GameState.Playing) return;
+        if (GameManager.instance.state != GameManager.GameState.Playing)
+        {
+            return;
+        }
 
         distanceTravelled += GameManager.instance.speed * Time.deltaTime;
 
-        // Tore kommen mit der Zeit näher zusammen
+        // abstand wird immer kleiner
         float currentDistance = distanceBetweenGates - gatesSpawned * 0.08f;
-        if (currentDistance < minDistance) currentDistance = minDistance;
+        if (currentDistance < minDistance)
+        {
+            currentDistance = minDistance;
+        }
 
         if (distanceTravelled >= currentDistance)
         {
@@ -35,16 +41,24 @@ public class GateSpawner : MonoBehaviour
 
     void SpawnGate()
     {
-        if (gates.Length == 0) return;
+        if (gates.Length == 0)
+        {
+            return;
+        }
 
         int maxStepAllowed = 1 + gatesSpawned / gatesUntilHarder;
 
-        // Zufälliges Tor suchen, das nicht zu schwer ist und nicht gleich wie das letzte
         int index = Random.Range(0, gates.Length);
         for (int i = 0; i < 20; i++)
         {
             index = Random.Range(0, gates.Length);
-            if (gates[index].requiredStep <= maxStepAllowed && index != lastIndex) break;
+
+            bool notTooHard = gates[index].requiredStep <= maxStepAllowed;
+            bool notSameAsLast = index != lastIndex;
+            if (notTooHard && notSameAsLast)
+            {
+                break;
+            }
         }
 
         lastIndex = index;

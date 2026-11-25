@@ -1320,10 +1320,10 @@ MonoBehaviour:
   storm2Volume: 0.22
   storm2Speed: 1
   whooshShort: {fileID: 8300000, guid: 92a98151fdc5d4f42a1a5a24c26a62fa, type: 3}
-  whooshShortVolume: 0.5
+  whooshShortVolume: 0.05
   whooshShortSpeed: 1.7
   whooshLong: {fileID: 8300000, guid: 98619995cd3bf40c0884e54ba92e91c1, type: 3}
-  whooshLongVolume: 1
+  whooshLongVolume: 0.1
   whooshLongSpeed: 2.3
   cloudHit: {fileID: 8300000, guid: 8f1e0a4dae1de4ad094a7558e74d4b4f, type: 3}
   cloudHitVolume: 0.2
@@ -1400,7 +1400,8 @@ MonoBehaviour:
   gameOverText: {fileID: 0}
   startScreen: {fileID: 0}
   gameOverScreen: {fileID: 0}
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 7001122052964688501, guid: 02f637df3fbae4e1590700c305e5b52b, type: 3}
+  slowSmokeSpeed: 0.4
 --- !u!4 &2032789581
 Transform:
   m_ObjectHideFlags: 0

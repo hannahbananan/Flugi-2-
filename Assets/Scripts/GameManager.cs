@@ -9,39 +9,36 @@ public class GameManager : MonoBehaviour
     public enum GameState { Start, Playing, GameOver }
     public GameState state = GameState.Start;
 
-    [Header("Höhe")]
     public float lift = 100;
     public float maxLift = 100;
-    public float[] liftPerSecond = { 9, -5, -13, -24 };   // bei 0°, 30°, 60°, 90°
+    public float[] liftPerSecond = { 9, -5, -13, -24 };
     public float hitDamage = 30;
 
-    [Header("Distanz")]
-    public float metersPerUnit = 10;    // wie viele Meter eine Unity-Einheit Flug sind
+    public float metersPerUnit = 10;
 
-    [Header("Tempo")]
     public float speed = 3;
     public float speedIncrease = 0.12f;
     public float maxSpeed = 10;
 
-    [Header("Kisten (bei tiefer Höhe)")]
     public GameObject cratePrefab;
-    public float crateHeight = 30;      // unter dieser Höhe fallen Kisten
-    public float crateMinWait = 4;      // Sekunden bis zur nächsten Kiste (zufällig dazwischen)
+    public float crateHeight = 30;
+    public float crateMinWait = 4;
     public float crateMaxWait = 6;
 
-    [Header("Verweise")]
     public PlaneController plane;
-    public RectTransform liftBar;       // Pivot X = 0, dann wird der Balken von links her kürzer
-    public TMP_Text scoreText;          // zeigt Distanz und Höhe
+    public RectTransform liftBar;
+    public TMP_Text scoreText;
     public TMP_Text infoText;
     public TMP_Text gameOverText;
     public GameObject startScreen;
     public GameObject gameOverScreen;
     public GameObject hitEffect;
+    public float slowSmokeSpeed = 0.4f;
 
     float distance = 0;
     float gameOverTime = 0;
     float crateTimer = 0;
+    int hitCount = 0;
 
     void Awake()
     {
@@ -50,9 +47,19 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (startScreen != null) startScreen.SetActive(true);
-        if (gameOverScreen != null) gameOverScreen.SetActive(false);
-        if (infoText != null) infoText.text = "";
+        if (startScreen != null)
+        {
+            startScreen.SetActive(true);
+        }
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(false);
+        }
+        if (infoText != null)
+        {
+            infoText.text = "";
+        }
+
         UpdateUI();
     }
 
@@ -60,25 +67,10 @@ public class GameManager : MonoBehaviour
     {
         if (state == GameState.Playing)
         {
-            // Distanz zählt mit dem Tempo hoch
             distance += speed * metersPerUnit * Time.deltaTime;
 
-            // Gerade fliegen = Höhe zurück, schräg fliegen = sinken
-            int index = Mathf.Abs(plane.step);
-            lift = lift + liftPerSecond[index] * Time.deltaTime;
-            if (lift > maxLift) lift = maxLift;
-
-            // Bei tiefer Höhe ab und zu eine Kiste abwerfen
-            if (lift < crateHeight && cratePrefab != null)
-            {
-                crateTimer -= Time.deltaTime;
-                if (crateTimer <= 0)
-                {
-                    GameObject crate = Instantiate(cratePrefab, plane.transform.position, Quaternion.identity);
-                    Destroy(crate, 3);
-                    crateTimer = Random.Range(crateMinWait, crateMaxWait);
-                }
-            }
+            ChangeLift();
+            DropCrates();
 
             if (lift <= 0)
             {
@@ -95,7 +87,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Wird bei jedem Tastendruck aufgerufen. true = Flugzeug darf kippen.
+    // gradeaus fliegen gibt höhe, schräg fliegen verliert höhe
+    void ChangeLift()
+    {
+        int index = Mathf.Abs(plane.step);
+        lift += liftPerSecond[index] * Time.deltaTime;
+
+        if (lift > maxLift)
+        {
+            lift = maxLift;
+        }
+    }
+
+    // kisten fallen lassen, wenn höhe unter 30
+    void DropCrates()
+    {
+        if (lift >= crateHeight || cratePrefab == null)
+        {
+            return;
+        }
+
+        crateTimer -= Time.deltaTime;
+
+        if (crateTimer <= 0)
+        {
+            GameObject crate = Instantiate(cratePrefab, plane.transform.position, Quaternion.identity);
+            Destroy(crate, 3);
+            crateTimer = Random.Range(crateMinWait, crateMaxWait);
+        }
+    }
+
     public bool ButtonPressed()
     {
         if (state == GameState.Start)
@@ -106,8 +127,10 @@ public class GameManager : MonoBehaviour
 
         if (state == GameState.GameOver)
         {
-            // Neustart erst, wenn der Absturz vorbei ist und der Screen kurz zu sehen war
-            if (gameOverTime > plane.crashDuration + 0.5f) Restart();
+            if (gameOverTime > plane.crashDuration + 0.5f)
+            {
+                Restart();
+            }
             return false;
         }
 
@@ -117,9 +140,15 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         state = GameState.Playing;
-        if (startScreen != null) startScreen.SetActive(false);
 
-        if (SoundManager.instance != null) SoundManager.instance.StartFlight();
+        if (startScreen != null)
+        {
+            startScreen.SetActive(false);
+        }
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.StartFlight();
+        }
     }
 
     void Restart()
@@ -129,29 +158,62 @@ public class GameManager : MonoBehaviour
 
     public void PlaneHitCloud(CloudGate gate)
     {
-        if (state != GameState.Playing) return;
-        if (gate.wasHit) return;    // pro Tor nur einmal Schaden
+        if (state != GameState.Playing)
+        {
+            return;
+        }
+
+        if (gate.wasHit)
+        {
+            return;
+        }
 
         gate.wasHit = true;
         lift -= hitDamage;
+        hitCount++;
 
-        if (SoundManager.instance != null) SoundManager.instance.PlayCloudHit();
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.PlayCloudHit();
+        }
 
         if (hitEffect != null)
         {
-            Instantiate(hitEffect, plane.transform.position, Quaternion.identity);
+            ShowSmoke();
         }
 
         ShowInfo("getroffen  -" + hitDamage);
     }
 
-    // Wird von jedem Tor aufgerufen, wenn es vorbei ist: Spiel wird schneller
+    // ab dem 2. treffer, komplette animation
+    void ShowSmoke()
+    {
+        GameObject smoke = Instantiate(hitEffect, plane.transform);
+        Animator animator = smoke.GetComponent<Animator>();
+        float length = animator.runtimeAnimatorController.animationClips[0].length;
+
+        if (hitCount >= 2)
+        {
+            animator.speed = slowSmokeSpeed;
+            length = length / slowSmokeSpeed;
+        }
+
+        Destroy(smoke, length);
+    }
+
     public void GatePassed(CloudGate gate)
     {
-        if (state != GameState.Playing) return;
+        if (state != GameState.Playing)
+        {
+            return;
+        }
 
-        speed = speed + speedIncrease;
-        if (speed > maxSpeed) speed = maxSpeed;
+        speed += speedIncrease;
+
+        if (speed > maxSpeed)
+        {
+            speed = maxSpeed;
+        }
     }
 
     void GameOver()
@@ -167,6 +229,7 @@ public class GameManager : MonoBehaviour
 
         int meters = Mathf.RoundToInt(distance);
         int best = PlayerPrefs.GetInt("bestDistance", 0);
+
         if (meters > best)
         {
             best = meters;
@@ -178,19 +241,24 @@ public class GameManager : MonoBehaviour
             gameOverText.text = "abgestürzt\n\n" + meters + " m geflogen\nrekord " + best + " m";
         }
 
-        // Zuerst stürzt das Flugzeug ab, danach kommt der Game-Over-Screen
         plane.Crash();
         Invoke("ShowGameOverScreen", plane.crashDuration);
     }
 
     void ShowGameOverScreen()
     {
-        if (gameOverScreen != null) gameOverScreen.SetActive(true);
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(true);
+        }
     }
 
     void UpdateUI()
     {
-        if (liftBar != null) liftBar.localScale = new Vector3(lift / maxLift, 1, 1);
+        if (liftBar != null)
+        {
+            liftBar.localScale = new Vector3(lift / maxLift, 1, 1);
+        }
 
         if (scoreText != null)
         {
@@ -200,19 +268,23 @@ public class GameManager : MonoBehaviour
 
     void ShowInfo(string message)
     {
-        if (infoText == null) return;
-
-        // Mit InfoPopup: aufploppen und ausblenden
-        InfoPopup popup = infoText.GetComponent<InfoPopup>();
-        if (popup != null)
+        if (infoText == null)
         {
-            popup.Show(message);
             return;
         }
 
-        infoText.text = message;
-        CancelInvoke("ClearInfo");
-        Invoke("ClearInfo", 1f);
+        InfoPopup popup = infoText.GetComponent<InfoPopup>();
+
+        if (popup != null)
+        {
+            popup.Show(message);
+        }
+        else
+        {
+            infoText.text = message;
+            CancelInvoke("ClearInfo");
+            Invoke("ClearInfo", 1f);
+        }
     }
 
     void ClearInfo()

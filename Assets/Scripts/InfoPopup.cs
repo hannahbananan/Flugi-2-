@@ -1,8 +1,6 @@
 using UnityEngine;
 using TMPro;
 
-// Lässt den InfoText aufploppen, zufällig schräg stellen und ausblenden.
-// Auf das Objekt "InfoText" legen.
 public class InfoPopup : MonoBehaviour
 {
     TMP_Text text;
@@ -23,11 +21,14 @@ public class InfoPopup : MonoBehaviour
 
     void Update()
     {
-        if (timer >= 1) return;
+        if (timer >= 1)
+        {
+            return;
+        }
 
         timer += Time.deltaTime;
 
-        // von gross auf normal schrumpfen und dabei ausblenden
+        // text wird kleiner und weniger sichtbar
         float size = Mathf.Lerp(1.5f, 1f, timer * 4);
         transform.localScale = new Vector3(size, size, 1);
         text.alpha = Mathf.Clamp01(1 - timer);

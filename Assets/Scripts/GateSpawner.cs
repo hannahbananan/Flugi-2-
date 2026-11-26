@@ -5,7 +5,6 @@ public class GateSpawner : MonoBehaviour
     public CloudGate[] gates;
     public float distanceBetweenGates = 8;
     public float minDistance = 5;
-    public int gatesUntilHarder = 4;
 
     float distanceTravelled;
     int gatesSpawned = 0;
@@ -19,6 +18,12 @@ public class GateSpawner : MonoBehaviour
     void Update()
     {
         if (GameManager.instance.state != GameManager.GameState.Playing)
+        {
+            return;
+        }
+
+        // in der pause zwischen den phasen keine neuen wolken
+        if (GameManager.instance.inBreak)
         {
             return;
         }
@@ -46,7 +51,8 @@ public class GateSpawner : MonoBehaviour
             return;
         }
 
-        int maxStepAllowed = 1 + gatesSpawned / gatesUntilHarder;
+        // phase 1: leichte wolken, ab phase 3: alle wolken
+        int maxStepAllowed = GameManager.instance.phase;
 
         int index = Random.Range(0, gates.Length);
         for (int i = 0; i < 20; i++)

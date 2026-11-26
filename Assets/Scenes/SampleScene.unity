@@ -523,6 +523,177 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 379892788}
   m_CullTransparentMesh: 1
+--- !u!1 &381863614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 381863615}
+  m_Layer: 0
+  m_Name: BackgroundZoom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &381863615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381863614}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1076406513}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &438070698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 438070701}
+  - component: {fileID: 438070700}
+  - component: {fileID: 438070699}
+  m_Layer: 5
+  m_Name: RadioText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &438070699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438070698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "Hallo, hier ist Grete vom Leuchtturm in Vindholm. H\xF6rst du mich? Gut
+    gemacht, du hast Hallvik mit Vorr\xE4ten versorgt! Pass auf, der Sturm wird st\xE4rker.
+    Weiter geht's nach Skarholm, und wir hoffen, du schaffst es bis\nnach Vindholm!"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 740fe83322a57441c8d50ec46c7ca605, type: 2}
+  m_sharedMaterial: {fileID: 4047175988033006185, guid: 740fe83322a57441c8d50ec46c7ca605, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4293320409
+  m_fontColor: {r: 0.8509804, g: 0.87058824, b: 0.9019608, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 31
+  m_fontSizeBase: 31
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &438070700
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438070698}
+  m_CullTransparentMesh: 1
+--- !u!224 &438070701
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438070698}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1120325215}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -300}
+  m_SizeDelta: {x: 639.1096, y: 90}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &490621946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1810,14 +1981,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.3411765, b: 0.1333333, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7500260010790956564, guid: 096d068c5ddba4525a5ba05871eda9b5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1834,6 +2005,104 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 764756468}
+  m_CullTransparentMesh: 1
+--- !u!1 &776001601
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 776001602}
+  - component: {fileID: 776001605}
+  - component: {fileID: 776001604}
+  - component: {fileID: 776001603}
+  m_Layer: 5
+  m_Name: Lighthouse
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &776001602
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776001601}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1120325215}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 98, y: 170}
+  m_SizeDelta: {x: 700, y: 700}
+  m_Pivot: {x: 0, y: 1}
+--- !u!95 &776001603
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776001601}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 24d95ce4e5dc6494e85c1e01e24d6010, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &776001604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776001601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 3f738bbd2c4c54cd0bd93e87b17cbc85, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &776001605
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776001601}
   m_CullTransparentMesh: 1
 --- !u!1 &841004924
 GameObject:
@@ -2358,14 +2627,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1076406512}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 338479372}
   - {fileID: 490621947}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 381863615}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1076406514
 Animator:
@@ -2389,6 +2658,52 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1120325211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1120325215}
+  - component: {fileID: 1120325214}
+  m_Layer: 5
+  m_Name: RadioBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!222 &1120325214
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120325211}
+  m_CullTransparentMesh: 1
+--- !u!224 &1120325215
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120325211}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 438070701}
+  - {fileID: 776001602}
+  m_Father: {fileID: 1784388262}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -250}
+  m_SizeDelta: {x: 900, y: 225.2697}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1268649981
 GameObject:
   m_ObjectHideFlags: 0
@@ -2423,7 +2738,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -243}
+  m_AnchoredPosition: {x: 0, y: -263.03}
   m_SizeDelta: {x: 1000, y: 67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1268649983
@@ -2834,7 +3149,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -113}
+  m_AnchoredPosition: {x: 0, y: -131.6}
   m_SizeDelta: {x: 1000, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1416627509
@@ -3320,9 +3635,8 @@ MonoBehaviour:
   - {fileID: 976806543303846225, guid: f981ba5ba4b8346abad8cc7a82eb73d4, type: 3}
   - {fileID: 8035260706564026346, guid: 55a1e069eea854c568d2dde6924ba477, type: 3}
   - {fileID: 4457364790195484971, guid: 492216ebcd03a4407b3f842a92b6f206, type: 3}
-  distanceBetweenGates: 8
+  distanceBetweenGates: 10
   minDistance: 5
-  gatesUntilHarder: 4
 --- !u!4 &1683083293
 Transform:
   m_ObjectHideFlags: 0
@@ -3509,9 +3823,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Kipp dein Flugzeug, um durch die L\xFCcken zwischen\nden Gewitterwolken
-    zu schl\xFCpfen. Aber Vorsicht:\nFliegst du zu lange schr\xE4g, verlierst du
-    H\xF6he. Und\ntriffst du eine Blitzwolke, verlierst du Teile der Fracht."
+  m_text: "Entscheide zwischen den 4 Winkeln \ndeines Flugzeug, um durch die L\xFCcken
+    zwischen\nden Gewitterwolken zu schl\xFCpfen. Aber Vorsicht:\nFliegst du zu lange
+    schr\xE4g, verlierst du H\xF6he. Und\ntriffst du eine Blitzwolke, verlierst du
+    Teile der Fracht."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 85e8842726f6b41c1b77385d940dd0af, type: 2}
   m_sharedMaterial: {fileID: 310881163490722475, guid: 85e8842726f6b41c1b77385d940dd0af, type: 2}
@@ -3821,6 +4136,7 @@ RectTransform:
   - {fileID: 841004925}
   - {fileID: 723570631}
   - {fileID: 1974502795}
+  - {fileID: 1120325215}
   - {fileID: 532086128}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4329,14 +4645,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.35}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 5156776694448688124, guid: 4528f9f50ca5a41f9aef853d694f7ad1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4364,6 +4680,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2032789581}
   - component: {fileID: 2032789580}
+  - component: {fileID: 2032789582}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4387,19 +4704,45 @@ MonoBehaviour:
   lift: 100
   maxLift: 100
   liftPerSecond:
-  - 16
+  - 8
+  - -1
   - -3
-  - -7
-  - -10
+  - -8
   hitDamage: 30
   metersPerUnit: 10
-  speed: 3
-  speedIncrease: 0.12
+  speed: 5
+  speedIncrease: 0.04
   maxSpeed: 10
   cratePrefab: {fileID: 5740949010003716111, guid: 78d9a87173509458baabbf9630fee6cf, type: 3}
   crateHeight: 30
   crateMinWait: 4
   crateMaxWait: 6
+  phaseLength: 3000
+  phaseSpeedJump: 1
+  breakTime: 2
+  radioTime: 13
+  parachutePrefab: {fileID: 5740949010003716111, guid: f78c376dfa3dc4be2b3b3fab37191155, type: 3}
+  parachuteTime: 2
+  radioDelay: 1.5
+  radioSound: {fileID: 2032789582}
+  radioClips:
+  - {fileID: 8300000, guid: b446f8891eaae48e4af2911757648c8c, type: 3}
+  - {fileID: 8300000, guid: a8db158b09aa247e88b427d994168ef8, type: 3}
+  - {fileID: 8300000, guid: 81464e69c93184ff28dd8b81431efdf7, type: 3}
+  radioBox: {fileID: 1120325211}
+  radioText: {fileID: 438070699}
+  radioMessages:
+  - "Hallo, hier ist Grete vom Leuchtturm in Vindholm. H\xF6rst du mich? Gut gemacht,
+    du hast Hallvik mit Vorr\xE4ten versorgt! Pass auf, der Sturm wird st\xE4rker.
+    Weiter geht's nach Skarholm, und wir hoffen, du schaffst es bis\nnach Vindholm!"
+  - "Grete hier, h\xF6rst du mich noch? Super, Skarholm hat seine Vorr\xE4te bekommen!\nJetzt
+    wird es richtig st\xFCrmisch, das ist die letzte Strecke. Halt durch, Vindholm
+    wartet auf dich!"
+  - "Hallo, hier bin ich ein letztes Mal! Du hast es geschafft, du bist \xFCber Vindholm!
+    Die Kisten landen gerade am Hafen. Danke, Pilotin, danke, Pilot. Ohne dich h\xE4tten
+    wir diesen Sturm nicht \xFCberstanden!"
+  phase: 1
+  inBreak: 0
   plane: {fileID: 327784592}
   liftBar: {fileID: 764756469}
   scoreText: {fileID: 841004926}
@@ -4407,6 +4750,9 @@ MonoBehaviour:
   gameOverText: {fileID: 1550882275}
   startScreen: {fileID: 379892788}
   gameOverScreen: {fileID: 864758705}
+  backgroundZoom: {fileID: 381863615}
+  maxZoom: 2
+  zoomTime: 0.6
   hitEffect: {fileID: 7001122052964688501, guid: 02f637df3fbae4e1590700c305e5b52b, type: 3}
   slowSmokeSpeed: 0.4
   gameOverDelay: 1
@@ -4425,6 +4771,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &2032789582
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032789579}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2147262800
 GameObject:
   m_ObjectHideFlags: 0
@@ -4515,4 +4958,4 @@ SceneRoots:
   - {fileID: 1784388262}
   - {fileID: 2147262803}
   - {fileID: 1899385158}
-  - {fileID: 1076406513}
+  - {fileID: 381863615}

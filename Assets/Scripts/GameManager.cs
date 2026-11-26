@@ -25,6 +25,28 @@ public class GameManager : MonoBehaviour
     public float crateMinWait = 4;
     public float crateMaxWait = 6;
 
+    public float phaseLength = 2000;
+    public float phaseSpeedJump = 1;
+    public float breakTime = 2;
+    public float radioTime = 10;
+    public GameObject parachutePrefab;
+    public float parachuteTime = 4;
+    public float radioDelay = 1.5f;
+    public AudioSource radioSound;
+    public AudioClip[] radioClips;
+    public GameObject radioBox;
+    public TMP_Text radioText;
+    [TextArea(2, 4)]
+    public string[] radioMessages =
+    {
+        "Vindholm an Pilot: Paket ist angekommen! Danke! Aber pass auf, der Sturm wird stärker.",
+        "Vindholm an Pilot: Die Medizin ist da! Halte durch, du hast schon die Hälfte geschafft.",
+        "Vindholm an Pilot: Wir sehen dich schon fast! Die Blitze werden heftiger, flieg vorsichtig.",
+        "Vindholm an Pilot: Wieder ein Paket gelandet! Du bist unsere Rettung!"
+    };
+    public int phase = 1;
+    public bool inBreak = false;
+
     public PlaneController plane;
     public RectTransform liftBar;
     public TMP_Text scoreText;
@@ -32,6 +54,9 @@ public class GameManager : MonoBehaviour
     public TMP_Text gameOverText;
     public GameObject startScreen;
     public GameObject gameOverScreen;
+    public Transform backgroundZoom;
+    public float maxZoom = 2f;
+    public float zoomTime = 0.6f;
     public GameObject hitEffect;
     public float slowSmokeSpeed = 0.4f;
     public float gameOverDelay = 1f;
@@ -40,6 +65,8 @@ public class GameManager : MonoBehaviour
     float gameOverTime = 0;
     float crateTimer = 0;
     int hitCount = 0;
+    float currentZoom = 1f;
+    float zoomVelocity = 0f;
 
     static bool skipStartScreen = false;
 
@@ -62,6 +89,10 @@ public class GameManager : MonoBehaviour
         {
             infoText.text = "";
         }
+        if (radioBox != null)
+        {
+            radioBox.SetActive(false);
+        }
 
         UpdateUI();
 
@@ -79,7 +110,9 @@ public class GameManager : MonoBehaviour
             distance += speed * metersPerUnit * Time.deltaTime;
 
             ChangeLift();
+            ZoomBackground();
             DropCrates();
+            CheckPhase();
 
             if (lift <= 0)
             {
@@ -93,6 +126,7 @@ public class GameManager : MonoBehaviour
         if (state == GameState.GameOver)
         {
             gameOverTime += Time.deltaTime;
+            ZoomBackground();
         }
     }
 
@@ -105,6 +139,16 @@ public class GameManager : MonoBehaviour
         if (lift > maxLift)
         {
             lift = maxLift;
+        }
+    }
+
+    void ZoomBackground()
+    {
+        if (backgroundZoom != null)
+        {
+            float targetZoom = Mathf.Lerp(maxZoom, 1f, lift / maxLift);
+            currentZoom = Mathf.SmoothDamp(currentZoom, targetZoom, ref zoomVelocity, zoomTime);
+            backgroundZoom.localScale = Vector3.one * currentZoom;
         }
     }
 
@@ -124,6 +168,94 @@ public class GameManager : MonoBehaviour
             Destroy(crate, 3);
             crateTimer = Random.Range(crateMinWait, crateMaxWait);
         }
+    }
+
+    // alle 2000 m: kurze pause, dann funkspruch mit paket, dann gleich nächste phase
+    void CheckPhase()
+    {
+        if (inBreak == false && distance >= phase * phaseLength)
+        {
+            inBreak = true;
+            Invoke("DropParachute", breakTime);
+        }
+    }
+
+    // zuerst das paket abwerfen, kurz danach kommt der funkspruch
+    void DropParachute()
+    {
+        if (state != GameState.Playing)
+        {
+            return;
+        }
+
+        if (parachutePrefab != null)
+        {
+            GameObject parachute = Instantiate(parachutePrefab, plane.transform.position, Quaternion.identity);
+            Destroy(parachute, parachuteTime);
+        }
+
+        Invoke("StartRadio", radioDelay);
+    }
+
+    void StartRadio()
+    {
+        if (state != GameState.Playing)
+        {
+            return;
+        }
+
+        if (radioText != null && radioMessages.Length > 0)
+        {
+            int index = phase - 1;
+            if (index >= radioMessages.Length)
+            {
+                index = radioMessages.Length - 1;
+            }
+            radioText.text = radioMessages[index];
+        }
+
+        // funkspruch abspielen (bei mehr phasen als clips wird der letzte clip wiederholt)
+        if (radioSound != null && radioClips.Length > 0)
+        {
+            int index = phase - 1;
+            if (index >= radioClips.Length)
+            {
+                index = radioClips.Length - 1;
+            }
+            radioSound.clip = radioClips[index];
+            radioSound.Play();
+        }
+
+        if (radioBox != null)
+        {
+            radioBox.SetActive(true);
+        }
+
+        Invoke("EndRadio", radioTime);
+    }
+
+    void EndRadio()
+    {
+        if (radioBox != null)
+        {
+            radioBox.SetActive(false);
+        }
+
+        EndBreak();
+    }
+
+    // neue phase: gleich ein stück schneller und schwerere wolken
+    void EndBreak()
+    {
+        phase++;
+        speed += phaseSpeedJump;
+
+        if (speed > maxSpeed)
+        {
+            speed = maxSpeed;
+        }
+
+        inBreak = false;
     }
 
     public void ClickButton()

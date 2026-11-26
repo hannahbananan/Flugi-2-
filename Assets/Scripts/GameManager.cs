@@ -173,7 +173,8 @@ public class GameManager : MonoBehaviour
     // alle 2000 m: kurze pause, dann funkspruch mit paket, dann gleich nächste phase
     void CheckPhase()
     {
-        if (inBreak == false && distance >= phase * phaseLength)
+        // die erste phase ist nur halb so lang (bei 3000: 1500 m, 4500 m, 7500 m ...)
+        if (inBreak == false && distance >= (phase - 0.5f) * phaseLength)
         {
             inBreak = true;
             Invoke("DropParachute", breakTime);
@@ -248,7 +249,16 @@ public class GameManager : MonoBehaviour
     void EndBreak()
     {
         phase++;
-        speed += phaseSpeedJump;
+
+        // phase 2 etwas einfacher: nur ein halber sprung
+        if (phase == 2)
+        {
+            speed += phaseSpeedJump * 0.5f;
+        }
+        else
+        {
+            speed += phaseSpeedJump;
+        }
 
         if (speed > maxSpeed)
         {

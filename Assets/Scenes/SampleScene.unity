@@ -3637,6 +3637,7 @@ MonoBehaviour:
   - {fileID: 4457364790195484971, guid: 492216ebcd03a4407b3f842a92b6f206, type: 3}
   distanceBetweenGates: 10
   minDistance: 5
+  randomGap: 1.5
 --- !u!4 &1683083293
 Transform:
   m_ObjectHideFlags: 0
@@ -4711,7 +4712,7 @@ MonoBehaviour:
   hitDamage: 30
   metersPerUnit: 10
   speed: 5
-  speedIncrease: 0.04
+  speedIncrease: 0.08
   maxSpeed: 10
   cratePrefab: {fileID: 5740949010003716111, guid: 78d9a87173509458baabbf9630fee6cf, type: 3}
   crateHeight: 30

@@ -5,10 +5,12 @@ public class GateSpawner : MonoBehaviour
     public CloudGate[] gates;
     public float distanceBetweenGates = 8;
     public float minDistance = 5;
+    public float randomGap = 1.5f;
 
     float distanceTravelled;
     int gatesSpawned = 0;
     int lastIndex = -1;
+    float extraGap = 0;
 
     void Start()
     {
@@ -37,9 +39,17 @@ public class GateSpawner : MonoBehaviour
             currentDistance = minDistance;
         }
 
-        if (distanceTravelled >= currentDistance)
+        // abstand etwas zufällig, aber nie kleiner als minDistance
+        float gap = currentDistance + extraGap;
+        if (gap < minDistance)
+        {
+            gap = minDistance;
+        }
+
+        if (distanceTravelled >= gap)
         {
             distanceTravelled = 0;
+            extraGap = Random.Range(-randomGap, randomGap);
             SpawnGate();
         }
     }
@@ -51,17 +61,13 @@ public class GateSpawner : MonoBehaviour
             return;
         }
 
-        // phase 1: leichte wolken, ab phase 3: alle wolken
-        int maxStepAllowed = GameManager.instance.phase;
-
+        // alle wolken von anfang an, nur nicht zweimal die gleiche hintereinander
         int index = Random.Range(0, gates.Length);
         for (int i = 0; i < 20; i++)
         {
             index = Random.Range(0, gates.Length);
 
-            bool notTooHard = gates[index].requiredStep <= maxStepAllowed;
-            bool notSameAsLast = index != lastIndex;
-            if (notTooHard && notSameAsLast)
+            if (index != lastIndex)
             {
                 break;
             }

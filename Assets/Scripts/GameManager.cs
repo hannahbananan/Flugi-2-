@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
     public TMP_Text gameOverText;
     public GameObject startScreen;
     public GameObject gameOverScreen;
+    public Transform backgroundZoom;
+    public float maxZoom = 2f;
+    public float zoomTime = 0.6f;
     public GameObject hitEffect;
     public float slowSmokeSpeed = 0.4f;
     public float gameOverDelay = 1f;
@@ -40,6 +43,8 @@ public class GameManager : MonoBehaviour
     float gameOverTime = 0;
     float crateTimer = 0;
     int hitCount = 0;
+    float currentZoom = 1f;
+    float zoomVelocity = 0f;
 
     static bool skipStartScreen = false;
 
@@ -79,6 +84,7 @@ public class GameManager : MonoBehaviour
             distance += speed * metersPerUnit * Time.deltaTime;
 
             ChangeLift();
+            ZoomBackground();
             DropCrates();
 
             if (lift <= 0)
@@ -93,6 +99,7 @@ public class GameManager : MonoBehaviour
         if (state == GameState.GameOver)
         {
             gameOverTime += Time.deltaTime;
+            ZoomBackground();
         }
     }
 
@@ -105,6 +112,16 @@ public class GameManager : MonoBehaviour
         if (lift > maxLift)
         {
             lift = maxLift;
+        }
+    }
+
+    void ZoomBackground()
+    {
+        if (backgroundZoom != null)
+        {
+            float targetZoom = Mathf.Lerp(maxZoom, 1f, lift / maxLift);
+            currentZoom = Mathf.SmoothDamp(currentZoom, targetZoom, ref zoomVelocity, zoomTime);
+            backgroundZoom.localScale = Vector3.one * currentZoom;
         }
     }
 

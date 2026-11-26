@@ -48,11 +48,19 @@ public class GameManager : MonoBehaviour
     public bool inBreak = false;
 
     public PlaneController plane;
-    public RectTransform liftBar;
+    public UnityEngine.UI.Image liftBar;
+    public UnityEngine.UI.Image angleDisplay;
+    public Sprite[] angleSprites;
+    public GameObject lowWarning;
+    public AudioSource warningSound;
+    public float warningPercent = 33.3f;
+    public float blinkTime = 0.3f;
     public TMP_Text scoreText;
     public TMP_Text infoText;
     public TMP_Text gameOverText;
     public GameObject startScreen;
+    public AudioSource startSound;
+    public float startSoundDelay = 2;
     public GameObject gameOverScreen;
     public Transform backgroundZoom;
     public float maxZoom = 2f;
@@ -67,6 +75,7 @@ public class GameManager : MonoBehaviour
     int hitCount = 0;
     float currentZoom = 1f;
     float zoomVelocity = 0f;
+    bool wasLow = false;
 
     static bool skipStartScreen = false;
 
@@ -100,6 +109,19 @@ public class GameManager : MonoBehaviour
         {
             skipStartScreen = false;
             StartGame();
+        }
+        else
+        {
+            Invoke("PlayStartSound", startSoundDelay);
+        }
+    }
+
+    // start-sound 2 sek nachdem der startbildschirm erscheint (nicht beim neustart)
+    void PlayStartSound()
+    {
+        if (state == GameState.Start && startSound != null)
+        {
+            startSound.Play();
         }
     }
 
@@ -405,13 +427,59 @@ public class GameManager : MonoBehaviour
     {
         if (liftBar != null)
         {
-            liftBar.localScale = new Vector3(lift / maxLift, 1, 1);
+            liftBar.fillAmount = lift / maxLift;
         }
 
         if (scoreText != null)
         {
             scoreText.text = Mathf.RoundToInt(distance) + " m";
         }
+
+        UpdateWarning();
+        UpdateAngleDisplay();
+    }
+
+    // winkelanzeige: 0 = gerade, 1 = 30°, 2 = 60°, 3 = 90°, andere richtung wird gespiegelt (wie beim flugzeug)
+    void UpdateAngleDisplay()
+    {
+        if (angleDisplay == null || angleSprites.Length == 0)
+        {
+            return;
+        }
+
+        int index = Mathf.Abs(plane.step);
+        if (index >= angleSprites.Length)
+        {
+            index = angleSprites.Length - 1;
+        }
+        angleDisplay.sprite = angleSprites[index];
+
+        if (plane.step > 0)
+        {
+            angleDisplay.rectTransform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            angleDisplay.rectTransform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
+    void UpdateWarning()
+    {
+        bool isLow = lift < maxLift * warningPercent / 100f;
+
+        if (lowWarning != null)
+        {
+            bool blinkOn = Mathf.Repeat(Time.time, blinkTime * 2) < blinkTime;
+            lowWarning.SetActive(isLow && blinkOn);
+        }
+
+        if (isLow && wasLow == false && warningSound != null)
+        {
+            warningSound.Play();
+        }
+
+        wasLow = isLow;
     }
 
     void ShowInfo(string message)

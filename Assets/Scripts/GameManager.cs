@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
     float currentZoom = 1f;
     float zoomVelocity = 0f;
     bool wasLow = false;
+    float phaseStart = 0;
 
     static bool skipStartScreen = false;
 
@@ -195,8 +196,7 @@ public class GameManager : MonoBehaviour
     // alle 2000 m: kurze pause, dann funkspruch mit paket, dann gleich nächste phase
     void CheckPhase()
     {
-        // die erste phase ist nur halb so lang (bei 3000: 1500 m, 4500 m, 7500 m ...)
-        if (inBreak == false && distance >= (phase - 0.5f) * phaseLength)
+        if (inBreak == false && distance - phaseStart >= CurrentPhaseLength())
         {
             inBreak = true;
             Invoke("DropParachute", breakTime);
@@ -268,9 +268,20 @@ public class GameManager : MonoBehaviour
     }
 
     // neue phase: gleich ein stück schneller und schwerere wolken
+    // die erste phase ist nur halb so lang
+    float CurrentPhaseLength()
+    {
+        if (phase == 1)
+        {
+            return phaseLength * 0.5f;
+        }
+        return phaseLength;
+    }
+
     void EndBreak()
     {
         phase++;
+        phaseStart = distance;
 
         // phase 2 etwas einfacher: nur ein halber sprung
         if (phase == 2)
@@ -432,7 +443,14 @@ public class GameManager : MonoBehaviour
 
         if (scoreText != null)
         {
-            scoreText.text = Mathf.RoundToInt(distance) + " m";
+            // strecke in der aktuellen phase, z.b. "234 / 3000 m"
+            float done = distance - phaseStart;
+            float total = CurrentPhaseLength();
+            if (done > total)
+            {
+                done = total;
+            }
+            scoreText.text = Mathf.RoundToInt(done) + " / " + Mathf.RoundToInt(total) + " m";
         }
 
         UpdateWarning();
